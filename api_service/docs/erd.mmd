@@ -1,0 +1,29 @@
+---
+config:
+  theme: neutral
+---
+erDiagram
+    USER {
+        int id PK 
+        int role_id FK
+        datetime creation_date
+    }
+    ROLE {
+        int id PK
+        string name
+    }
+    PROJECT {
+        int id PK
+        string name
+        string description
+        status string
+        datetime begin_date
+        datetime end_date
+    }
+    user_project {
+        int user_id PK, FK
+        int project_id PK, FK
+    }
+    ROLE ||--o{ USER : ""
+    USER }o--|| user_project : ""
+    PROJECT }o--|| user_project : ""
