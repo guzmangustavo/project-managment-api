@@ -62,6 +62,6 @@ Aquí podrás ver todos los endpoints disponibles, sus parámetros y probarlos d
 *   `/info`: Información básica de la API.
 *   `/healthcheck`: Endpoint de estado de salud.
 
-Diagrama Entidad Relación
+## Diagrama Entidad Relación
 
 ![DER](api_service/docs/erd.jpg)

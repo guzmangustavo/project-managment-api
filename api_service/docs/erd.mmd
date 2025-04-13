@@ -6,11 +6,14 @@ erDiagram
     USER {
         int id PK 
         int role_id FK
+        string name
+        string position
         datetime creation_date
     }
     ROLE {
         int id PK
         string name
+        string description
     }
     PROJECT {
         int id PK
