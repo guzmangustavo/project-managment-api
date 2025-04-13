@@ -16,7 +16,7 @@ Este servicio proporciona endpoints RESTful para realizar operaciones CRUD (Crea
 
 ## Instrucciones de ejecución de los contenedores
 
-1. Crear un archivo .env dentro de app/, con las siguientes variables:
+1. Crear un archivo .env dentro de api_service/, con las siguientes variables:
 ```bash
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
@@ -33,6 +33,7 @@ docker compose build
 docker compose up -d
 ```
 3. Acceder a la API
+
 La API estará disponible en `http://localhost:8000`.
 
 5. Dar de baja la aplicación, conservando el volumen (se mantendrán los datos almacenados en la DB):
