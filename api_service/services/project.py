@@ -12,7 +12,8 @@ class ProjectService:
         Initializes the ProjectService with the given database session.
 
         Args:
-            session (Session): The database session for interacting with the database.
+            session (Session): The database session for interacting with the
+            database.
         """
         self.session = session
         self.repo = ProjectRepository(session=session)
@@ -149,7 +150,9 @@ class UserProjectService:
         if not project:
             return None
         
-        existing_user_project = self.repo.get_by_composite_id(user_id, project_id)
+        existing_user_project = self.repo.get_by_composite_id(
+            user_id, project_id
+        )
         if existing_user_project:
             return None
         
@@ -181,7 +184,9 @@ class UserProjectService:
         if not project:
             return None
         
-        existing_user_project = self.repo.get_by_composite_id(user_id, project_id)
+        existing_user_project = self.repo.get_by_composite_id(
+            user_id, project_id
+        )
         if not existing_user_project:
             return None
     
