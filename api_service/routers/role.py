@@ -32,7 +32,7 @@ router = APIRouter(
 def create_role(
     role: RoleCreate,
     session: Session = Depends(get_session)
-):
+) -> RolePublic:
     """
     Create a new role.
     """
@@ -44,7 +44,7 @@ def create_role(
 
 
 @router.get("/", response_model=List[RolePublic], status_code=200)
-def read_roles(session: Session = Depends(get_session)):
+def read_roles(session: Session = Depends(get_session)) -> List[RolePublic]:
     """
     Retrieve a list of roles.
     """
@@ -71,9 +71,9 @@ def read_roles(session: Session = Depends(get_session)):
 def read_role(
     role_id: int,
     session: Session = Depends(get_session)
-):
+) -> RolePublic:
     """
-    Retrieve a role by ID.
+    Retrieve a role by its ID.
     """
     role_service = RoleService(session=session)
     role = role_service.get_role_by_id(role_id)
@@ -101,9 +101,9 @@ def update_role(
     role_id: int,
     role: RoleUpdate,
     session: Session = Depends(get_session)
-):
+) -> RolePublic:
     """
-    Update a role by ID.
+    Update a role by its ID.
     """
     role_service = RoleService(session=session)
     updated_role = role_service.update_role(role_id, role)
@@ -130,9 +130,9 @@ def update_role(
 def delete_role(
     role_id: int,
     session: Session = Depends(get_session)
-):
+) -> MessageResponse:
     """
-    Delete a role by ID.
+    Delete a role by its ID.
     """
     role_service = RoleService(session=session)
     deleted_role = role_service.delete_role(id=role_id)

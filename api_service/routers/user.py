@@ -31,8 +31,8 @@ router = APIRouter(
 )
 def create_user(
     user: UserCreate,
-    session=Depends(get_session)
-):
+    session: Session = Depends(get_session)
+) -> UserPublic:
     """
     Create a new user.
     """
@@ -44,7 +44,7 @@ def create_user(
 
 
 @router.get("/", response_model=List[UserPublic], status_code=200)
-def read_users(session: Session = Depends(get_session)):
+def read_users(session: Session = Depends(get_session)) -> List[UserPublic]:
     """
     Retrieve a list of users.
     """
@@ -71,7 +71,7 @@ def read_users(session: Session = Depends(get_session)):
 def read_user(
     user_id: int,
     session: Session = Depends(get_session)
-):
+) -> UserPublic:
     """
     Retrieve a single user by its ID.
     """
@@ -101,7 +101,7 @@ def update_user(
     user_id: int,
     user_update: UserUpdate,
     session: Session = Depends(get_session)
-):
+) -> UserPublic:
     """
     Update an existing user by its ID.
     Only fields provided in the request body will be updated.
@@ -134,7 +134,7 @@ def update_user(
 def delete_user(
     user_id: int,
     session: Session = Depends(get_session)
-) -> dict:
+) -> MessageResponse:
     """
     Delete a user by its ID.
     """
@@ -146,4 +146,6 @@ def delete_user(
     elif is_deleted is False:
         raise HTTPException(status_code=500, detail="Error deleting user")
     else:
-        return {"message": f"User with id {user_id} deleted successfully"}
+        return MessageResponse(
+            message=f"User with id {user_id} deleted successfully"
+        )

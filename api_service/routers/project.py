@@ -30,7 +30,7 @@ router = APIRouter(
 def create_project(
     project: ProjectCreate,
     session: Session = Depends(get_session)
-):
+) -> ProjectPublic:
     """
     Create a new project.
     """
@@ -42,7 +42,9 @@ def create_project(
 
 
 @router.get("/", response_model=List[ProjectPublic], status_code=200)
-def read_projects(session: Session = Depends(get_session)):
+def read_projects(
+    session: Session = Depends(get_session)
+) -> List[ProjectPublic]:
     """
     Retrieve a list of projects.
     """
@@ -69,7 +71,7 @@ def read_projects(session: Session = Depends(get_session)):
 def read_project(
     project_id: int,
     session: Session = Depends(get_session)
-):
+) -> ProjectPublic:
     """
     Retrieve a project by its ID.
     """
@@ -99,7 +101,7 @@ def update_project(
     project_id: int,
     project_update: ProjectUpdate,
     session: Session = Depends(get_session)
-):
+) -> ProjectPublic:
     """
     Update a project by its ID.
     """
@@ -128,7 +130,7 @@ def update_project(
 def delete_project(
     project_id: int,
     session: Session = Depends(get_session)
-):
+) -> MessageResponse:
     """
     Delete a project by its ID.
     """
@@ -158,7 +160,7 @@ def add_user_to_project(
     project_id: int,
     user_id: int,
     session: Session = Depends(get_session)
-):
+) -> MessageResponse:
     """
     Add a user to a project.
     """
@@ -166,7 +168,7 @@ def add_user_to_project(
     is_added = user_project_service.add_user_to_project(project_id, user_id)
     if not is_added:
         raise HTTPException(status_code=500, detail="Error adding user to project")
-    return {"message": "User added to project successfully"}
+    return MessageResponse(message="User added to project successfully")
 
 
 @router.delete(
@@ -188,7 +190,7 @@ def remove_user_from_project(
     project_id: int,
     user_id: int,
     session: Session = Depends(get_session)
-):
+) -> MessageResponse:
     """
     Remove a user from a project.
     """
@@ -196,4 +198,4 @@ def remove_user_from_project(
     is_removed = user_project_service.remove_user_from_project(project_id, user_id)
     if not is_removed:
         raise HTTPException(status_code=500, detail="Error removing user from project")
-    return {"message": "User removed from project successfully"}
+    return MessageResponse(message="User removed from project successfully")
