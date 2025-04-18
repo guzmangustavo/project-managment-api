@@ -85,7 +85,7 @@ class UserService:
         if not updated_user:
             return None
         
-        return self._transform_to_public(updated_user)
+        return updated_user
     
     def delete_user(self, id: int) -> bool | None:
         """

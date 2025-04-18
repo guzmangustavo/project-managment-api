@@ -84,7 +84,7 @@ class RoleService:
         if not updated_role:
             return None
         
-        return self._transform_to_public(updated_role)
+        return updated_role
     
     def delete_role(self, id: int)  -> bool | None:
         """

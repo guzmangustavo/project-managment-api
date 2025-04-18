@@ -93,7 +93,7 @@ class ProjectService:
         if not updated_project:
             return None
         
-        return self._transform_to_public(updated_project)
+        return updated_project
     
     def delete_project(self, id: int) -> bool | None:
         """
