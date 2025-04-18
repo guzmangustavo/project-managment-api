@@ -7,7 +7,8 @@ class ProjectRepository(BaseRepository):
         """
         Initializes the project repository.
 
-        :param session: The database session (sqlmodel.Session).
+        Args:
+            session: The database session (sqlmodel.Session).
         """
         super().__init__(model=Project, session=session)
 
@@ -17,6 +18,7 @@ class UserProjectRepository(BaseRepository):
         """
         Initializes the user project repository.
 
-        :param session: The database session (sqlmodel.Session).
+        Args:
+            session: The database session (sqlmodel.Session).
         """
         super().__init__(model=UserProject, session=session)

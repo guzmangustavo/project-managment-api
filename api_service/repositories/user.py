@@ -5,8 +5,9 @@ from models.user import User
 class UserRepository(BaseRepository):
     def __init__(self, session):
         """
-        Inicializa el repositorio de usuarios.
+        Initializes the user repository.
 
-        :param session: La sesión de base de datos (sqlmodel.Session).
+        Args:
+            session: The database session (sqlmodel.Session).
         """
         super().__init__(model=User, session=session)
