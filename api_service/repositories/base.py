@@ -4,34 +4,51 @@ from sqlmodel import SQLModel, Session, select
 class BaseRepository:
     def __init__(self, model, session: Session):
         """
-        Clase base para repositorios con implementaciones CRUD genéricas.
+        Base class for repositories with generic CRUD implementations.
 
-        :param model: La clase del modelo SQLModel que manejará este repositorio
-                      (ej: User, Item).
-        :param session: La sesión de base de datos (sqlmodel.Session).
+        Args:
+            model: The SQLModel class that this repository will manage
+                   (e.g., User, Project).
+            session: The database session (sqlmodel.Session).
         """
         if not issubclass(model, SQLModel):
-             raise TypeError(f"El parámetro 'model' debe ser una subclase de SQLModel, se recibió {type(model)}")
+             raise TypeError(
+                f"The 'model' parameter must be a subclass of SQLModel, "
+                f"received {type(model)}"
+            )
         self._model = model
         self.session = session
 
     def get_by_id(self, id: int):
         """
-        Obtiene un único registro por su ID.
+        Retrieves a single record by its ID.
 
-        :param id: El identificador del registro a buscar.
-        :return: Una instancia del modelo encontrado o None si no existe.
+        Args:
+            id: The identifier of the record to search for.
+
+        Returns:
+            An instance of the model if found, or None if it doesn't exist.
         """
         return self.session.get(self._model, id)
     
     def get_by_composite_id(self, *ids):
+        """
+        Retrieves a record by its composite ID.
+
+        Args:
+            *ids: The individual composite key values to identify the record.
+
+        Returns:
+            The instance of the model if found, or None if it doesn't exist.
+        """
         return self.session.get(self._model, ids)
 
     def get_all(self):
         """
-        Obtiene una lista de registros, con opción de paginación.
+        Retrieves a list of records.
 
-        :return: Una lista de instancias del modelo.
+        Returns:
+            A list of model instances.
         """
         statement = select(self._model)
         results = self.session.exec(statement)
@@ -39,12 +56,16 @@ class BaseRepository:
 
     def create(self, object):
         """
-        Crea un nuevo registro en la base de datos.
+        Creates a new record in the database.
 
-        :param object: Un objeto (normalmente un schema Pydantic/SQLModel como UserCreate)
-                       con los datos para crear el nuevo registro.
-                       Se espera que sea compatible para crear una instancia de self._model.
-        :return: La instancia del modelo recién creada y refrescada desde la BD.
+        Args:
+            object: An object (a SQLModel instance like ProjectCreate)
+                    containing the data to create the new record.
+                    It is expected to be compatible with the model.
+
+        Returns:
+            The newly created and refreshed model instance from the database or
+            None if an error occurs during the process..
         """
         try:
             self.session.add(object)
@@ -56,11 +77,16 @@ class BaseRepository:
 
     def update(self, object):
         """
-        Actualiza un registro existente por su ID.
+        Updates an existing record with the provided data.
 
-        :param object: Un objeto (normalmente un schema Pydantic/SQLModel como UserUpdate)
-                       con los datos a actualizar. Solo los campos presentes se actualizarán.
-        :return: La instancia del modelo actualizada o None si no se encontró el registro.
+        Args:
+            object: An object (a SQLModel instance like UserUpdate)
+                    containing the data to update. Only the fields present will
+                    be updated.
+
+        Returns:
+            The updated model instance if successful, or None if the record was
+            not found or an error occurred.
         """
         try:
             self.session.add(object)
@@ -73,10 +99,14 @@ class BaseRepository:
 
     def delete(self, object):
         """
-        Elimina un registro de la base de datos por su ID.
+        Deletes a record from the database.
 
-        :param object: Un objeto a eliminar
-        :return: La instancia del modelo eliminado (ahora detached de la sesión) o None si no se encontró.
+        Args:
+            object: The object to delete.
+
+        Returns:
+            True if the deletion was successful, or False if an error occurred
+            or the record was not found.
         """
         try:
             self.session.delete(object)
