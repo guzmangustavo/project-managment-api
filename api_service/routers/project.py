@@ -165,7 +165,10 @@ def add_user_to_project(
     Add a user to a project.
     """
     user_project_service = UserProjectService(session=session)
-    is_added = user_project_service.add_user_to_project(project_id, user_id)
+    is_added = user_project_service.add_user_to_project(
+        user_id=user_id,
+        project_id=project_id
+    )
     if not is_added:
         raise HTTPException(status_code=500, detail="Error adding user to project")
     return MessageResponse(message="User added to project successfully")
@@ -195,7 +198,10 @@ def remove_user_from_project(
     Remove a user from a project.
     """
     user_project_service = UserProjectService(session=session)
-    is_removed = user_project_service.remove_user_from_project(project_id, user_id)
+    is_removed = user_project_service.remove_user_from_project(
+        user_id=user_id,
+        project_id=project_id
+    )
     if not is_removed:
         raise HTTPException(status_code=500, detail="Error removing user from project")
     return MessageResponse(message="User removed from project successfully")
