@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from sqlmodel import create_engine, SQLModel, Session
+from typing import Iterator
 
 
 load_dotenv()
@@ -17,7 +18,7 @@ DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERV
 engine = create_engine(DATABASE_URL, echo=True)
 
 
-def create_db_and_tables():
+def create_db_and_tables() -> None:
     """
     Creates the database and all tables defined in the SQLModel metadata.
 
@@ -30,7 +31,7 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 
-def get_session():
+def get_session() -> Iterator[Session]:
     """
     Provides a session for database operations.
 
